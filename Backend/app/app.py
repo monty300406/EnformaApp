@@ -8,20 +8,26 @@ app = Flask(__name__)
 CORS(app)
 app.config.from_object(Config)
 
-# Inicializar base de datos
+
 db.init_app(app)
 
-# Registrar blueprint
+
 app.register_blueprint(auth_bp)
 
-# Ruta de prueba (opcional)
+
 @app.route('/')
 def home():
     return "¡Bienvenido a EnFormaAPP!"
 
-# Crear tablas
+@app.route('/test')
+def test():
+    return "Ruta de prueba OK"
+
+
 with app.app_context():
     db.create_all()
+    print("Tablas creadas:", db.metadata.tables.keys())
+
 
 if __name__ == '__main__':
     app.run(debug=True)

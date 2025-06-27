@@ -17,11 +17,11 @@ jwt = JWTManager(app)
 
 @jwt.user_identity_loader
 def user_identity_lookup(identity):
-    return str(identity["id"])  # el subject debe ser string o int
+    return str(identity["id"])
 
 @jwt.additional_claims_loader
 def add_claims_to_access_token(identity):
-    return {"rol": identity["rol"]}  # agrega el rol como claim
+    return {"rol": identity["rol"]}
 
 
 app.register_blueprint(auth_bp)

@@ -5,7 +5,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 rutina_bp = Blueprint('rutinas', __name__, url_prefix='/api')
 
 
-# ✅ Crear rutina (admin puede crear para otros usuarios)
+
 @rutina_bp.route('/rutinas', methods=['POST'])
 @jwt_required()
 def crear_rutina():
@@ -25,7 +25,7 @@ def crear_rutina():
     if not isinstance(ejercicios, list):
         return jsonify({"error": "El campo 'ejercicios' debe ser una lista"}), 400
 
-    # Si el rol es admin puede pasar usuario_id, si no, solo se permite al usuario autenticado
+    
     usuario_id_destino = data.get('usuario_id') if claims.get('rol') == 'admin' else identidad
 
     nueva_rutina = Rutina(
@@ -46,7 +46,7 @@ def crear_rutina():
     return jsonify({"mensaje": "Rutina creada con éxito"}), 201
 
 
-# ✅ Obtener todas las rutinas del usuario autenticado
+
 @rutina_bp.route('/rutinas', methods=['GET'])
 @jwt_required()
 def obtener_rutinas():
@@ -70,7 +70,7 @@ def obtener_rutinas():
     return jsonify(resultado), 200
 
 
-# ✅ Obtener una rutina por ID (admin o dueño)
+
 @rutina_bp.route('/rutinas/<int:id>', methods=['GET'])
 @jwt_required()
 def obtener_rutina(id):
@@ -97,7 +97,7 @@ def obtener_rutina(id):
     }), 200
 
 
-# ✅ Obtener todas las rutinas de un usuario (solo admin)
+
 @rutina_bp.route('/rutinas/usuario/<int:usuario_id>', methods=['GET'])
 @jwt_required()
 def obtener_rutinas_de_usuario(usuario_id):
@@ -124,7 +124,7 @@ def obtener_rutinas_de_usuario(usuario_id):
     return jsonify(resultado), 200
 
 
-# ✅ Editar rutina (dueño o admin)
+
 @rutina_bp.route('/rutinas/<int:id>', methods=['PUT'])
 @jwt_required()
 def editar_rutina(id):
@@ -154,7 +154,7 @@ def editar_rutina(id):
     return jsonify({"mensaje": "Rutina actualizada"}), 200
 
 
-# ✅ Eliminar rutina (solo dueño)
+
 @rutina_bp.route('/rutinas/<int:id>', methods=['DELETE'])
 @jwt_required()
 def eliminar_rutina(id):

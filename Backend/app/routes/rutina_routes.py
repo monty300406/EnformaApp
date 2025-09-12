@@ -25,8 +25,10 @@ def crear_rutina():
     if not isinstance(ejercicios, list):
         return jsonify({"error": "El campo 'ejercicios' debe ser una lista"}), 400
 
-    
-    usuario_id_destino = data.get('usuario_id') if claims.get('rol') == 'admin' else identidad
+
+    usuario_id_destino = identidad
+    if claims.get("rol") == "admin" and data.get("usuario_id"):
+        usuario_id_destino = data.get("usuario_id")
 
     nueva_rutina = Rutina(
         nombre=nombre,
@@ -43,7 +45,11 @@ def crear_rutina():
     db.session.add(nueva_rutina)
     db.session.commit()
 
-    return jsonify({"mensaje": "Rutina creada con éxito"}), 201
+    return jsonify({
+        "mensaje": "Rutina creada con éxito",
+        "id": nueva_rutina.id,
+        "usuario_id": nueva_rutina.usuario_id
+    }), 201
 
 
 
@@ -159,12 +165,19 @@ def editar_rutina(id):
 @jwt_required()
 def eliminar_rutina(id):
     identidad = int(get_jwt_identity())
+    claims = get_jwt()  
     rutina = Rutina.query.get(id)
 
-    if not rutina or rutina.usuario_id != identidad:
+    
+    if not rutina or (rutina.usuario_id != identidad and claims.get('rol') != 'admin'):
         return jsonify({"error": "Rutina no encontrada o acceso no autorizado"}), 404
 
     db.session.delete(rutina)
     db.session.commit()
 
-    return jsonify({"mensaje": f"Rutina {id} eliminada"}), 200
+    return jsonify({
+        "mensaje": f"Rutina {id} eliminada correctamente",
+        "id": id,
+        "usuario_id": rutina.usuario_id
+    }), 200
+

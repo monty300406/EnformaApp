@@ -1,10 +1,11 @@
-# models/rutina.py
 from sqlalchemy.dialects.postgresql import JSON
 from datetime import datetime
+from sqlalchemy.orm import relationship
 from . import db
+from .user import User   
 
 class Rutina(db.Model):
-    __tablename__ = 'rutinas'
+    __tablename__ = "rutinas"
 
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), nullable=False)
@@ -15,6 +16,8 @@ class Rutina(db.Model):
     duracion_min = db.Column(db.Integer)
     enfoque = db.Column(db.String(100))
     ejercicios = db.Column(JSON, nullable=False)
-
-    usuario_id = db.Column(db.Integer, nullable=False)
     creado_en = db.Column(db.DateTime, default=datetime.utcnow)
+
+   
+    usuario_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    usuario = relationship("User", back_populates="rutinas")

@@ -16,7 +16,7 @@ def registro():
     nombre = data.get('nombre')
     email = data.get('email')
     contraseña = data.get('contraseña')
-    rol = data.get('rol', 'usuario')  # Por defecto es 'usuario'
+    rol = data.get('rol', 'usuario')  
 
     if not all([nombre, email, contraseña]):
         return jsonify({"error": "Faltan datos"}), 400
@@ -29,7 +29,12 @@ def registro():
     db.session.add(nuevo_usuario)
     db.session.commit()
 
-    return jsonify({"mensaje": "Usuario registrado con éxito"}), 201
+    
+    return jsonify({
+        "mensaje": "Usuario registrado con éxito",
+        "id": nuevo_usuario.id
+    }), 201
+
 
 
 @auth_bp.route('/login', methods=['POST'])

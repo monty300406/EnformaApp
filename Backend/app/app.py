@@ -7,16 +7,16 @@ from routes.rutina_routes import rutina_bp
 from routes.ejercicio_routes import ejercicio_bp
 from flask_jwt_extended import JWTManager
 
-
 jwt = JWTManager()
-
 
 def create_app(config_class=Config):
     app = Flask(__name__)
     CORS(app)
 
+    # Cargar configuración (por defecto usa Config, pero en tests se puede pasar TestConfig)
     app.config.from_object(config_class)
 
+    # Inicializar extensiones
     db.init_app(app)
     jwt.init_app(app)
 
@@ -28,10 +28,12 @@ def create_app(config_class=Config):
     def add_claims_to_access_token(identity):
         return {"rol": identity["rol"]}
 
+    # Registrar blueprints
     app.register_blueprint(auth_bp)
     app.register_blueprint(rutina_bp)
     app.register_blueprint(ejercicio_bp)
 
+    # Rutas de prueba
     @app.route('/')
     def home():
         return "¡Bienvenido a EnFormaAPP!"

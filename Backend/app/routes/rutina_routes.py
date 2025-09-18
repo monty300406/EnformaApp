@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from models.rutina import Rutina, db
+from app.models.rutina import Rutina, db
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 
 rutina_bp = Blueprint('rutinas', __name__, url_prefix='/api')

@@ -1,10 +1,10 @@
 from flask import Blueprint, request, jsonify
-from models.ejercicio import Ejercicio, db
+from app.models.ejercicio import Ejercicio, db
 from flask_jwt_extended import jwt_required, get_jwt
 
 ejercicio_bp = Blueprint('ejercicios', __name__, url_prefix='/api')
 
-# Crear ejercicio (solo admin)
+
 @ejercicio_bp.route('/ejercicios', methods=['POST'])
 @jwt_required()
 def crear_ejercicio():
@@ -38,7 +38,7 @@ def crear_ejercicio():
     }), 201
 
 
-# Obtener todos los ejercicios
+
 @ejercicio_bp.route('/ejercicios', methods=['GET'])
 @jwt_required()
 def obtener_ejercicios():
@@ -55,7 +55,6 @@ def obtener_ejercicios():
 
     return jsonify(resultado), 200
 
-# Obtener ejercicio por ID
 @ejercicio_bp.route('/ejercicios/<int:id>', methods=['GET'])
 @jwt_required()
 def obtener_ejercicio(id):
@@ -73,7 +72,7 @@ def obtener_ejercicio(id):
         "descripcion": ejercicio.descripcion
     }), 200
 
-# Editar ejercicio (solo admin)
+
 @ejercicio_bp.route('/ejercicios/<int:id>', methods=['PUT'])
 @jwt_required()
 def editar_ejercicio(id):
@@ -96,7 +95,7 @@ def editar_ejercicio(id):
     db.session.commit()
     return jsonify({"mensaje": "Ejercicio actualizado"}), 200
 
-# Eliminar ejercicio (solo admin)
+
 @ejercicio_bp.route('/ejercicios/<int:id>', methods=['DELETE'])
 @jwt_required()
 def eliminar_ejercicio(id):

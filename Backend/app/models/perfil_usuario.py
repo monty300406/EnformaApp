@@ -14,5 +14,5 @@ class PerfilUsuario(db.Model):
     nivel_actividad = db.Column(db.String(50))
     objetivo = db.Column(db.String(50))
     
-    # Relación inversa con el modelo User
+    
     usuario = relationship("User", back_populates="perfil")

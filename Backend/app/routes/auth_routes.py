@@ -51,9 +51,9 @@ def login():
     if not usuario or not usuario.check_password(contrasena):
         return jsonify({"error": "Credenciales inválidas"}), 401
 
-    # Guardamos solo el ID en identity
+    
     access_token = create_access_token(
-    identity=str(usuario.id),  # el id del usuario en string
+    identity=str(usuario.id),  
     additional_claims={"rol": usuario.rol, "email": usuario.email}
 )
 
@@ -70,8 +70,8 @@ def login():
 @auth_bp.route('/usuarios', methods=['GET'])
 @jwt_required()
 def obtener_usuarios():
-    identidad = get_jwt_identity()  # ahora es "1", un string con el id
-    claims = get_jwt()              # contiene {"rol": "admin", "email": "...", ...}
+    identidad = get_jwt_identity()  
+    claims = get_jwt()              
 
     if claims["rol"] != 'admin':
         return jsonify({"error": "No tienes permisos para ver todos los usuarios"}), 403
@@ -96,7 +96,7 @@ def eliminar_usuario(usuario_id):
     identidad = get_jwt_identity()
     claims = get_jwt()
 
-    # Solo los admins pueden eliminar usuarios
+    
     if claims["rol"] != "admin":
         return jsonify({"error": "No tienes permisos para eliminar usuarios"}), 403
 
@@ -104,7 +104,7 @@ def eliminar_usuario(usuario_id):
     if not usuario:
         return jsonify({"error": "Usuario no encontrado"}), 404
 
-    db.session.delete(usuario)  # Esto elimina perfil y rutinas por cascade
+    db.session.delete(usuario)  
     db.session.commit()
 
     return jsonify({"mensaje": f"Usuario {usuario_id} eliminado con éxito"}), 200

@@ -1,30 +1,26 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms'; 
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
+  imports: [CommonModule, FormsModule],
   templateUrl: './login.html',
-  styleUrls: ['./login.css']
+  styleUrls: ['./login.scss']
 })
-export class LoginComponent implements OnInit {
-  
-  form!: FormGroup; 
+export class LoginComponent {
+  credentials = {
+    email: '',
+    contrasena: ''
+  };
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private router: Router) {}
 
-  ngOnInit(): void {
-    this.form = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
-    });
-  }
-
-  onSubmit(): void {
-    if (this.form.valid) {
-      console.log(this.form.value);
-      // Aquí llamas al servicio de login
-    } else {
-      console.log('Formulario inválido');
+  onLogin() {
+    if (this.credentials.email && this.credentials.contrasena) {
+      console.log('Login exitoso:', this.credentials);
+      this.router.navigate(['/profile']);
     }
   }
 }

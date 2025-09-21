@@ -1,1 +1,29 @@
-<p>login works!</p>
+<div class="auth-container">
+  <h2>Iniciar sesión</h2>
+  <form #loginForm="ngForm" (ngSubmit)="onLogin()">
+    <label for="email">Correo electrónico</label>
+    <input 
+      type="email" 
+      id="email" 
+      name="email" 
+      [(ngModel)]="credentials.email" 
+      required 
+    />
+
+    <label for="contrasena">Contraseña</label>
+    <input 
+      type="password" 
+      id="contrasena" 
+      name="contrasena" 
+      [(ngModel)]="credentials.contrasena" 
+      required 
+    />
+
+    <button type="submit" [disabled]="!loginForm.valid">Entrar</button>
+  </form>
+
+  <p class="redirect">
+    ¿No tienes cuenta?
+    <a routerLink="/auth/register">Regístrate aquí</a>
+  </p>
+</div>

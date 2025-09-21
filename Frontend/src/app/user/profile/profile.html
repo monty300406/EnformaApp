@@ -1,1 +1,13 @@
-<p>profile works!</p>
+<div class="profile-container">
+  <h2>Mi Perfil</h2>
+
+  <div *ngIf="user; else loadingTpl" class="profile-info">
+    <p><strong>Nombre:</strong> {{ user.nombre }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <button (click)="logout()">Cerrar sesión</button>
+  </div>
+
+  <ng-template #loadingTpl>
+    <p>Cargando perfil...</p>
+  </ng-template>
+</div>

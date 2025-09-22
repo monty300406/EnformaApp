@@ -46,7 +46,7 @@ export class PerfilFormComponent implements OnInit {
       next: (data) => {
         if (data.perfil) {
           this.perfilForm.patchValue(data.perfil);
-          this.updating = true; // Perfil ya existe, estamos en modo edición
+          this.updating = true; 
         }
         this.loading = false;
       },
@@ -78,7 +78,7 @@ export class PerfilFormComponent implements OnInit {
         this.successMessage = res.mensaje;
         this.errorMessage = null;
         if (!this.updating) {
-          this.updating = true; // Después de crear perfil, cambiamos a modo edición
+          this.updating = true; 
         }
       },
       error: (err) => {

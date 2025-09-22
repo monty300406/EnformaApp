@@ -30,7 +30,7 @@ export class LoginComponent {
 
     this.authService.login(this.credentials).subscribe({
       next: (res) => {
-        console.log('Respuesta del backend en login:', res); // 👀 imprime toda la respuesta
+        console.log('Respuesta del backend en login:', res); 
         this.authService.saveToken(res.token);
 
         console.log(

@@ -18,7 +18,7 @@ export class ProfileComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    console.log('Cargando perfil, token actual:', this.authService.getToken()); // 👀
+    console.log('Cargando perfil, token actual:', this.authService.getToken()); 
 
     this.authService.getProfile().subscribe({
       next: (data: User) => {
@@ -27,7 +27,7 @@ export class ProfileComponent implements OnInit {
         this.loading = false;
       },
       error: (err) => {
-        console.error('Error al cargar el perfil:', err); // 👀 error detallado
+        console.error('Error al cargar el perfil:', err); 
         this.authService.logout();
         this.router.navigate(['/auth/login']);
       },

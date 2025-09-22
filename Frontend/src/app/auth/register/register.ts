@@ -1,25 +1,41 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { AuthService } from '../../core/auth';
 
 @Component({
   selector: 'app-register',
-  imports: [CommonModule, FormsModule],
+  standalone: true,
+  imports: [CommonModule, FormsModule, RouterLink, NgIf],
   templateUrl: './register.html',
-  styleUrls: ['./register.scss']
+  styleUrls: ['./register.scss'],
 })
 export class RegisterComponent {
   user = {
     nombre: '',
     email: '',
-    contrasena: ''
+    contrasena: '',
   };
 
-  constructor(private router: Router) {}
+  errorMessage: string | null = null;
 
-  onRegister() {
-    console.log('Usuario registrado:', this.user);
-    this.router.navigate(['/auth/login']);
+  constructor(private authService: AuthService, private router: Router) {}
+
+  onRegister(): void {
+    if (!this.user.nombre || !this.user.email || !this.user.contrasena) {
+      this.errorMessage = 'Todos los campos son obligatorios';
+      return;
+    }
+
+    this.authService.register(this.user).subscribe({
+      next: () => {
+        this.router.navigate(['/auth/login']);
+      },
+      error: () => {
+        this.errorMessage = 'Error al registrar el usuario';
+      },
+    });
   }
 }

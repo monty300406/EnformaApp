@@ -1,0 +1,50 @@
+.profile-container {
+  max-width: 500px;
+  margin: 3rem auto;
+  text-align: center;
+
+  h2 {
+    margin-bottom: 1.5rem;
+    color: #212121;
+  }
+
+  .profile-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: left;
+
+    p {
+      margin: 0.5rem 0;
+      font-size: 1rem;
+      color: #424242;
+    }
+
+    button {
+      margin-top: 1.5rem;
+      width: 100%;
+      padding: 0.8rem;
+      background: #d32f2f;
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+
+      &:hover {
+        background: #b71c1c;
+      }
+    }
+  }
+
+  .loading {
+    color: #1976d2;
+    font-style: italic;
+  }
+
+  .error {
+    color: #d32f2f;
+  }
+}

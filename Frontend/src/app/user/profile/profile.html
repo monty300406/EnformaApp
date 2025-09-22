@@ -1,13 +1,19 @@
-<div class="profile-container">
-  <h2>Mi Perfil</h2>
+<div class="profile-container" *ngIf="!loading; else loadingTpl">
+  <h2>Perfil de Usuario</h2>
 
-  <div *ngIf="user; else loadingTpl" class="profile-info">
+  <div class="profile-card" *ngIf="user; else noUserTpl">
     <p><strong>Nombre:</strong> {{ user.nombre }}</p>
     <p><strong>Email:</strong> {{ user.email }}</p>
-    <button (click)="logout()">Cerrar sesión</button>
-  </div>
+    <p><strong>Rol:</strong> {{ user.rol }}</p>
 
-  <ng-template #loadingTpl>
-    <p>Cargando perfil...</p>
-  </ng-template>
+    <button (click)="onLogout()">Cerrar Sesión</button>
+  </div>
 </div>
+
+<ng-template #loadingTpl>
+  <p class="loading">Cargando perfil...</p>
+</ng-template>
+
+<ng-template #noUserTpl>
+  <p class="error">No se pudo cargar el perfil.</p>
+</ng-template>

@@ -1,1 +1,83 @@
-@import '../login/login.scss'; 
+.auth-container {
+  max-width: 400px;
+  margin: 3rem auto;
+  padding: 2rem;
+  border-radius: 12px;
+  background: #FAFAFA;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #1976D2; 
+  }
+
+  .form-group {
+    margin-bottom: 1.2rem;
+
+    label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-weight: 600;
+      color: #424242;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.7rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      transition: border 0.2s;
+
+      &:focus {
+        border-color: #1976D2;
+        outline: none;
+      }
+    }
+  }
+
+  .error {
+    color: #D32F2F;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  button {
+    width: 100%;
+    padding: 0.8rem;
+    background: #D32F2F;
+    border: none;
+    border-radius: 8px;
+    color: #FAFAFA;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+      background: darken(#D32F2F, 10%);
+    }
+
+    &:disabled {
+      background: #D32F2F;
+      cursor: not-allowed;
+    }
+  }
+
+  .redirect {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+
+    a {
+      color: #1976D2;
+      text-decoration: none;
+      font-weight: 600;
+
+      &:hover {
+        text-decoration: underline;
+        color: #D32F2F;
+      }
+    }
+  }
+}

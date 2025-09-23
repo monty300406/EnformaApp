@@ -8,11 +8,10 @@ html,
 body {
   font-family: 'Segoe UI', Roboto, Arial, sans-serif;
   font-size: 16px;
-  color: #212121;
-  background-color: #f5f6fa;
+  color: #424242;
+  background-color: #FAFAFA; 
   min-height: 100vh;
 }
-
 
 a {
   color: inherit;
@@ -21,12 +20,12 @@ a {
   transition: color 0.2s;
 
   &.active {
-    color: white;
+    color: #1976D2; 
     font-weight: bold;
   }
 
   &:hover {
-    color: white;
+    color: #D32F2F; 
   }
 }
 
@@ -50,8 +49,8 @@ a[role='button'] {
 
 /* Header */
 header {
-  background: orange;
-  color: #fff;
+  background: #1976D2; 
+  color: #FAFAFA;
   padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
@@ -65,13 +64,13 @@ header {
   nav a {
     margin-left: 1rem;
     font-weight: 600;
+    color: #FFEBEE;  
+    text-decoration: none;
+    transition: color 0.2s;
 
     &:hover {
       text-decoration: underline;
-    }
-
-    &:last-child {
-      color: #ffebee;
+      color: #D32F2F; 
     }
   }
 }
@@ -85,8 +84,8 @@ main {
 /* Footer */
 footer {
   margin-top: auto;
-  background: #212121;
-  color: #fff;
+  background: #424242; /* gris oscuro */
+  color: #FAFAFA;
   text-align: center;
   padding: 1rem;
   font-size: 0.9rem;
@@ -94,15 +93,15 @@ footer {
 
 /* Estados globales */
 .error {
-  color: #d32f2f;
+  color: #D32F2F;
 }
 
 .success {
-  color: #388e3c;
+  color: #1976D2;
 }
 
 .loading {
-  color: orange;
+  color: #D32F2F;
   font-style: italic;
 }
 

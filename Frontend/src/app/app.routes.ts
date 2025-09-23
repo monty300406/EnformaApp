@@ -3,6 +3,7 @@ import { LoginComponent } from './auth/login/login';
 import { RegisterComponent } from './auth/register/register';
 import { ProfileComponent } from './user/profile/profile';
 import { AuthGuard } from './core/guards/auth-guard';
+import { PerfilFormComponent } from './user/perfil-form/perfil-form';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
@@ -16,11 +17,13 @@ export const routes: Routes = [
   },
 
   {
-    path: 'user',
-    children: [
-      { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-    ],
-  },
+  path: 'user',
+  children: [
+    { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+    { path: 'profile/form', component: PerfilFormComponent, canActivate: [AuthGuard] },
+  ],
+},
+
 
   { path: '**', redirectTo: 'auth/login' },
 ];

@@ -6,7 +6,65 @@
     <p><strong>Email:</strong> {{ user.email }}</p>
     <p><strong>Rol:</strong> {{ user.rol }}</p>
 
+    <button (click)="toggleForm()">
+      {{ showForm ? 'Cancelar' : (updating ? 'Editar Perfil' : 'Crear Perfil') }}
+    </button>
     <button (click)="onLogout()">Cerrar Sesión</button>
+
+    <!-- Formulario de perfil integrado -->
+    <div *ngIf="showForm" class="perfil-form">
+      <h3>{{ updating ? 'Editar Perfil' : 'Crear Perfil' }}</h3>
+      <form [formGroup]="perfilForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label>Sexo</label>
+          <select formControlName="sexo">
+            <option value="">Selecciona</option>
+            <option value="masculino">Masculino</option>
+            <option value="femenino">Femenino</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Edad</label>
+          <input type="number" formControlName="edad" placeholder="Ej: 25" />
+        </div>
+
+        <div class="form-group">
+          <label>Peso (kg)</label>
+          <input type="number" formControlName="peso" placeholder="Ej: 70" />
+        </div>
+
+        <div class="form-group">
+          <label>Altura (cm)</label>
+          <input type="number" formControlName="altura" placeholder="Ej: 175" />
+        </div>
+
+        <div class="form-group">
+          <label>Nivel de actividad</label>
+          <select formControlName="nivel_actividad">
+            <option value="">Selecciona</option>
+            <option value="bajo">Bajo</option>
+            <option value="medio">Medio</option>
+            <option value="alto">Alto</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Objetivo</label>
+          <select formControlName="objetivo">
+            <option value="">Selecciona</option>
+            <option value="perder_peso">Perder peso</option>
+            <option value="ganar_musculo">Ganar músculo</option>
+            <option value="mantener">Mantener</option>
+          </select>
+        </div>
+
+        <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+        <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+
+        <button type="submit">{{ updating ? 'Actualizar Perfil' : 'Crear Perfil' }}</button>
+      </form>
+    </div>
   </div>
 </div>
 

@@ -11,7 +11,7 @@ perfil_bp = Blueprint("perfil", __name__, url_prefix="/api")
 @perfil_bp.route("/perfil", methods=["GET"])
 @jwt_required()
 def consultar_perfil():
-    usuario_id = int(get_jwt_identity())  # identity = "1"
+    usuario_id = int(get_jwt_identity()) 
     claims = get_jwt()
 
     usuario = User.query.filter_by(id=usuario_id).first()
@@ -43,7 +43,6 @@ def consultar_perfil():
         }
     }), 200
 
-
 # ------------------------------
 # CREAR PERFIL (POST)
 # ------------------------------
@@ -71,7 +70,6 @@ def crear_perfil():
 
     return jsonify({"mensaje": "Perfil creado con éxito"}), 201
 
-
 # ------------------------------
 # ACTUALIZAR PERFIL (PUT)
 # ------------------------------
@@ -96,7 +94,6 @@ def actualizar_perfil():
 
     return jsonify({"mensaje": "Perfil actualizado con éxito"}), 200
 
-
 # ------------------------------
 # ELIMINAR PERFIL (DELETE) SOLO ADMIN
 # ------------------------------
@@ -117,7 +114,6 @@ def eliminar_perfil(usuario_id):
     db.session.commit()
 
     return jsonify({"mensaje": f"Perfil del usuario {usuario_id} eliminado con éxito"}), 200
-
 
 # ------------------------------
 # OBTENER TODOS LOS PERFILES (GET) SOLO ADMIN
@@ -151,3 +147,77 @@ def obtener_todos_los_perfiles():
         })
 
     return jsonify(lista_usuarios_con_perfil), 200
+
+# ------------------------------
+# RECOMENDACION DE NUTRICION Y RUTINA
+# ------------------------------
+@perfil_bp.route("/perfil/recomendacion", methods=["GET"])
+@jwt_required()
+def recomendacion_perfil():
+    usuario_id = int(get_jwt_identity())
+
+    perfil = PerfilUsuario.query.filter_by(usuario_id=usuario_id).first()
+    if not perfil:
+        return jsonify({"error": "Perfil no encontrado"}), 404
+
+    # Calculo TMB (Harris-Benedict simplificado)
+    if perfil.sexo.lower() == "masculino":
+        tmb = 10 * perfil.peso + 6.25 * perfil.altura - 5 * perfil.edad + 5
+    else:
+        tmb = 10 * perfil.peso + 6.25 * perfil.altura - 5 * perfil.edad - 161
+
+    # Factor de actividad
+    nivel = perfil.nivel_actividad.lower() if perfil.nivel_actividad else "bajo"
+    factor_actividad = 1.2
+    if nivel == "medio":
+        factor_actividad = 1.55
+    elif nivel == "alto":
+        factor_actividad = 1.9
+
+    calorias_mantenimiento = tmb * factor_actividad
+    calorias_finales = calorias_mantenimiento
+    mensaje = "Tu objetivo es mantener peso, por lo que se mantienen las calorías de mantenimiento."
+
+    # Ajuste según objetivo
+    objetivo = perfil.objetivo.lower() if perfil.objetivo else ""
+    if objetivo in ["perder peso", "perder_peso"]:
+        calorias_finales -= 500
+        mensaje = "Debido a tu objetivo de perder peso, se restaron 500 kcal a tus calorías de mantenimiento."
+    elif objetivo in ["ganar músculo", "ganar_musculo"]:
+        calorias_finales += 300
+        mensaje = "Debido a tu objetivo de ganar músculo, se añadieron 300 kcal a tus calorías de mantenimiento."
+
+    # ---------------------------
+    # MACROS (reparto sencillo)
+    # ---------------------------
+    proteinas_g = perfil.peso * 2  # g/kg peso
+    proteinas_kcal = proteinas_g * 4
+
+    grasas_kcal = calorias_finales * 0.25
+    grasas_g = grasas_kcal / 9
+
+    carbohidratos_kcal = calorias_finales - (proteinas_kcal + grasas_kcal)
+    carbohidratos_g = carbohidratos_kcal / 4
+
+    # ---------------------------
+    # RECOMENDACION DE RUTINA
+    # ---------------------------
+    tipo_rutina = "Full-Body"
+    if objetivo in ["ganar músculo", "ganar_musculo"]:
+        tipo_rutina = "Upper-Lower" if nivel != "alto" else "Push-Pull-Legs"
+
+    return jsonify({
+        "nutricion": {
+            "calorias": round(calorias_finales),
+            "mensaje": mensaje,
+            "macronutrientes": {
+                "proteinas_g": round(proteinas_g, 1),
+                "carbohidratos_g": round(carbohidratos_g, 1),
+                "grasas_g": round(grasas_g, 1)
+            }
+        },
+        "rutina": {
+            "tipo": tipo_rutina,
+            "descripcion": f"Se recomienda la rutina {tipo_rutina} según tu objetivo y nivel de actividad."
+        }
+    }), 200

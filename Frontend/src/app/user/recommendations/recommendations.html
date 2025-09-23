@@ -1,0 +1,31 @@
+<div class="recommendations-container">
+  <h2 class="title">🔎 Tus Recomendaciones</h2>
+
+  <!-- Estado de carga -->
+  <div *ngIf="loading" class="loading">Cargando recomendaciones...</div>
+
+  <!-- Estado de error -->
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+
+  <!-- Contenido principal -->
+  <div *ngIf="!loading && recommendations" class="grid">
+    <!-- Nutrición -->
+    <div class="card nutrition-card">
+  <h3 class="section-title">🥗 Nutrición</h3>
+  <ul class="macros-list">
+    <li><span>Calorías:</span> {{ recommendations?.nutricion.calorias }} kcal</li>
+    <li><span>Proteínas:</span> {{ recommendations?.nutricion.macronutrientes.proteinas_g }} g</li>
+    <li><span>Grasas:</span> {{ recommendations?.nutricion.macronutrientes.grasas_g }} g</li>
+    <li><span>Carbohidratos:</span> {{ recommendations?.nutricion.macronutrientes.carbohidratos_g }} g</li>
+  </ul>
+  <p class="highlight">{{ recommendations?.nutricion.mensaje }}</p>
+</div>
+
+    <!-- Rutina -->
+    <div class="card routine-card">
+      <h3 class="section-title">💪 Rutina</h3>
+      <p><strong>Tipo:</strong> {{ recommendations?.rutina.tipo }}</p>
+      <p class="description">{{ recommendations?.rutina.descripcion }}</p>
+    </div>
+  </div>
+</div>

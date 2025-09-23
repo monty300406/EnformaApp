@@ -4,8 +4,7 @@
   <div class="profile-card" *ngIf="user; else noUserTpl">
     <p><strong>Nombre:</strong> {{ user.nombre }}</p>
     <p><strong>Email:</strong> {{ user.email }}</p>
-    <p><strong>Rol:</strong> {{ user.rol }}</p>
-
+    
     <button (click)="toggleForm()">
       {{ showForm ? 'Cancelar' : (updating ? 'Editar Perfil' : 'Crear Perfil') }}
     </button>
@@ -65,6 +64,9 @@
         <button type="submit">{{ updating ? 'Actualizar Perfil' : 'Crear Perfil' }}</button>
       </form>
     </div>
+
+    <!-- 🔹 Sección de recomendaciones integrada en el perfil -->
+    <app-recommendations></app-recommendations>
   </div>
 </div>
 

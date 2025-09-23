@@ -46,6 +46,14 @@ export class AuthService {
     });
   }
 
+  // 🔹 Obtener recomendaciones de nutrición y rutina
+  getRecommendations(): Observable<any> {
+    const token = this.getToken();
+    return this.http.get<any>(`${this.apiUrl}/perfil/recomendacion`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  }
+
   // Logout
   logout(): void {
     localStorage.removeItem('token');

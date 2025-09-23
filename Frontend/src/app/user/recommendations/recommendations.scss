@@ -1,0 +1,92 @@
+.recommendations-container {
+  margin-top: 2rem;
+  padding: 1rem;
+
+  .title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: #2c3e50;
+  }
+
+  .loading {
+    text-align: center;
+    font-style: italic;
+    color: #888;
+  }
+
+  .error-message {
+    background: #ffe6e6;
+    color: #c0392b;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  .grid {
+    display: grid;
+    gap: 1.5rem;
+
+    @media (min-width: 768px) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: translateY(-4px);
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      color: #34495e;
+    }
+
+    .macros-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1rem 0;
+
+      li {
+        margin: 0.3rem 0;
+        font-size: 1rem;
+
+        span {
+          font-weight: 600;
+          color: #2c3e50;
+        }
+      }
+    }
+
+    .highlight {
+      background: #f0f9ff;
+      padding: 0.8rem;
+      border-left: 4px solid #3498db;
+      border-radius: 6px;
+      color: #2c3e50;
+      font-size: 0.95rem;
+    }
+
+    .description {
+      margin-top: 0.8rem;
+      font-size: 0.95rem;
+      color: #555;
+    }
+  }
+
+  .nutrition-card {
+    border-top: 4px solid #27ae60;
+  }
+
+  .routine-card {
+    border-top: 4px solid #e67e22;
+  }
+}

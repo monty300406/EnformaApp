@@ -1,17 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/auth';
+import { RecommendationsComponent } from '../recommendations/recommendations';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RecommendationsComponent],
   templateUrl: './profile.html',
   styleUrls: ['./profile.scss'],
 })
 export class ProfileComponent implements OnInit {
+  @ViewChild(RecommendationsComponent) recommendationsComp!: RecommendationsComponent; // 👈 referencia al hijo
+
   user: any = null;
   loading = true;
 
@@ -20,8 +23,6 @@ export class ProfileComponent implements OnInit {
   errorMessage: string | null = null;
   successMessage: string | null = null;
   updating = false;
-
-  private apiUrl = 'http://localhost:5000/api';
 
   constructor(private authService: AuthService, private router: Router) {
     this.perfilForm = new FormGroup({
@@ -88,9 +89,15 @@ export class ProfileComponent implements OnInit {
         this.successMessage = res.mensaje || 'Perfil guardado correctamente.';
         this.errorMessage = null;
         this.updating = true;
-        // Actualizar datos visibles después de guardar
+
+        // Actualizar datos visibles
         this.user = { ...this.user, ...this.perfilForm.value };
         this.showForm = false;
+
+        // 🔹 Refrescar recomendaciones
+        if (this.recommendationsComp) {
+          this.recommendationsComp.loadRecommendations();
+        }
       },
       error: (err) => {
         console.error('Error guardando perfil:', err);
